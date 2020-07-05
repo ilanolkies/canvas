@@ -1,14 +1,16 @@
 import React from 'react'
 import './style.sass'
+import Sidebar from '../Sidebar'
+import Canvas from '../Canvas'
 
 export default () => (
   <div className="Body">
     <div className="sidebar">
-      sidebar
+      <Sidebar />
     </div>
     <div className="divisor"></div>
     <div className="canvas">
-      canvas
+      <Canvas />
     </div>
   </div>
 )
