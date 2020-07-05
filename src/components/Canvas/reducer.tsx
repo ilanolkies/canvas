@@ -1,15 +1,18 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { ElementTypes, ElementProps } from '../elements'
 
-export interface ElementState {
-  type: ElementTypes,
-  props: ElementProps,
+interface AbsolutePosition {
   top: number,
   left: number
 }
 
+export interface ElementState extends AbsolutePosition {
+  type: ElementTypes,
+  props: ElementProps,
+}
+
 export interface CanvasState {
-  elements: ElementState[]
+  elements: ElementState[],
 }
 
 const initialState: CanvasState = {
@@ -21,16 +24,21 @@ export interface AddElementPayload {
   props: ElementProps
 }
 
+type MoveElementPayload = AbsolutePosition & { id: number }
+
 const canvasSlice = createSlice({
   name: 'canvas',
   initialState,
   reducers: {
-    addElement({ elements }: CanvasState, element: PayloadAction<AddElementPayload>) {
-      elements.push({ ...element.payload, top: 10, left: 10 })
+    addElement({ elements }: CanvasState, { payload }: PayloadAction<AddElementPayload>) {
+      elements.push({ ...payload, top: 10, left: 10 })
+    },
+    moveElement({ elements }: CanvasState, { payload: { id, top, left } }: PayloadAction<MoveElementPayload>) {
+      Object.assign(elements[id], { top, left } )
     }
   }
 })
 
-export const { addElement } = canvasSlice.actions
+export const { addElement, moveElement } = canvasSlice.actions
 
 export default canvasSlice.reducer

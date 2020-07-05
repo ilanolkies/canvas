@@ -1,24 +1,25 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Dispatch } from '@reduxjs/toolkit'
 import './style.sass'
-import { ElementState } from './reducer'
-import { getElementByType } from '../elements'
+import { moveElement } from './reducer'
 import { RootState } from '../../store'
-import { selectElements } from './selectors'
+import { selectElementPositions } from './selectors'
+import CanvasElement from '../CanvasElement'
 
 interface CanvasProps {
-  elements: ElementState[]
+  elementPositions: ReturnType<typeof selectElementPositions>,
+  onClick: (id: number) => void
 }
 
-const Canvas: React.FC<CanvasProps> = ({ elements }) => {
+const Canvas: React.FC<CanvasProps> = ({ elementPositions, onClick }) => {
   return (
     <div className="Canvas">
       {
-        elements.map(({ top, left, type, props }, i) => {
-          const ElementComponent = getElementByType(type)
+        elementPositions.map(({ top, left }, id) => {
           return (
-            <div key={i} style={{ top, left }} className='canvas-element'>
-              <ElementComponent {...props} />
+            <div key={id} style={{ top, left }} className='canvas-element' onClick={() => onClick(id)}>
+              <CanvasElement id={id} />
             </div>
           )
         })
@@ -28,7 +29,11 @@ const Canvas: React.FC<CanvasProps> = ({ elements }) => {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  elements: selectElements(state)
+  elementPositions: selectElementPositions(state)
 })
 
-export default connect(mapStateToProps)(Canvas)
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  onClick: (id: number) => dispatch(moveElement({ id, top: 50, left: 10 }))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Canvas)
