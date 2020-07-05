@@ -1,0 +1,28 @@
+@import 'main'
+
+$header-height: 40px
+$footer-height: 70px
+$footer-observable-part: 5px
+$body-height: calc(100% - #{$header-height + $footer-height})
+$height: calc(100% + #{$footer-height - $footer-observable-part})
+
+.App
+  position: absolute
+  top: 0
+  width: 100%
+  height: $height
+
+  .header
+    @extend %pull-left
+    @extend %bg-secondary-light
+    height: $header-height
+
+  .body
+    @extend %pull-left
+    @extend %bg-primary-light
+    height: $body-height
+
+  .footer
+    @extend %pull-left
+    @extend %bg-secondary-dark
+    height: $footer-height

@@ -1,0 +1,43 @@
+$color-primary: #e1f5fe
+$color-primary-light: #ffffff
+$color-primary-dark: #afc2cb
+$color-primary-text: #000000
+
+$color-secondary: #01579b
+$color-secondary-light: #4f83cc
+$color-secondary-dark: #002f6c
+$color-secondary-text: #ffffff
+
+// background colors
+
+=bg($color-bg, $color)
+  background-color: $color-bg
+  color: $color
+
+%bg-primary
+  +bg($color-primary, $color-primary-text)
+
+%bg-primary-light
+  +bg($color-primary-light, $color-primary-text)
+
+%bg-primary-dark
+  +bg($color-primary-dark, $color-primary-text)
+
+%bg-secondary
+  +bg($color-secondary, $color-secondary-text)
+
+%bg-secondary-light
+  +bg($color-secondary-light, $color-secondary-text)
+
+%bg-secondary-dark
+  +bg($color-secondary-dark, $color-secondary-text)
+
+// utils
+
+%push-left
+  height: 100%
+  float: left
+
+%pull-left
+  width: 100%
+  float: left

@@ -1,0 +1,28 @@
+@import '../../main'
+
+$sidebar-width: 200px
+$divisor-width: 5px
+$canvas-width: calc(100% - #{$sidebar-width} - #{$divisor-width})
+
+.Body
+  @extend %bg-primary-light
+  position: absoulte
+  height: 100%
+  width: 100%
+  top: 0
+  left: 0
+
+  .sidebar
+    @extend %push-left
+    @extend %bg-primary-light
+    width: $sidebar-width
+
+  .divisor
+    @extend %push-left
+    @extend %bg-secondary-dark
+    width: $divisor-width
+
+  .canvas
+    @extend %push-left
+    @extend %bg-primary-light
+    width: $canvas-width
