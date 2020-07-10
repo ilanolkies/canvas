@@ -2,7 +2,7 @@
 
 $sidebar-width: 200px
 $divisor-width: 5px
-$canvas-width: calc(100% - #{$sidebar-width} - #{$divisor-width})
+$canvas-width: calc(100% - #{2*$sidebar-width} - #{2*$divisor-width})
 
 .Body
   @extend %bg-primary-light
@@ -26,3 +26,8 @@ $canvas-width: calc(100% - #{$sidebar-width} - #{$divisor-width})
     @extend %push-left
     @extend %bg-primary-light
     width: $canvas-width
+
+  .settings
+    @extend %push-left
+    @extend %bg-primary
+    width: $sidebar-width

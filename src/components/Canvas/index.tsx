@@ -2,15 +2,17 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { Dispatch } from '@reduxjs/toolkit'
 import './style.sass'
-import { moveElement, MoveElementPayload } from './reducer'
+import { moveElement, MoveElementPayload, SelectElementPayload, selectElement } from './reducer'
 import { RootState } from '../../store'
 import { selectElementPositions } from './selectors'
 import CanvasElement from '../CanvasElement'
 
 interface CanvasProps {
-  elementPositions: ReturnType<typeof selectElementPositions>,
+  elementPositions: ReturnType<typeof selectElementPositions>
   moveElement: (payload: MoveElementPayload) => void
+  selectElement: (payload: SelectElementPayload) => void
 }
+
 type DraggedElementPosition = {
   clientX: number
   clientY: number
@@ -20,7 +22,11 @@ type DraggedElement = {
   id: number
 } & DraggedElementPosition
 
-const Canvas: React.FC<CanvasProps> = ({ elementPositions, moveElement }) => {
+const Canvas: React.FC<CanvasProps> = ({
+  elementPositions,
+  moveElement,
+  selectElement
+}) => {
   const [draggedElement, drag] = useState({
     id: -1,
     clientX: -1,
@@ -46,6 +52,7 @@ const Canvas: React.FC<CanvasProps> = ({ elementPositions, moveElement }) => {
               className='canvas-element'
               onDragStart={({ clientX, clientY }) => drag({ clientX, clientY  })}
               onDragEnd={({ clientX, clientY }) => drop({ id, clientX, clientY  })}
+              onClick={() => selectElement({ id })}
               draggable
             >
               <CanvasElement id={id} />
@@ -62,7 +69,8 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  moveElement: (payload: MoveElementPayload) => dispatch(moveElement(payload))
+  moveElement: (payload: MoveElementPayload) => dispatch(moveElement(payload)),
+  selectElement: (payload: SelectElementPayload) => dispatch(selectElement(payload))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Canvas)

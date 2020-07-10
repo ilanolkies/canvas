@@ -19,3 +19,8 @@ export const selectElementPropsById = createSelector(
     return { props, type }
   })
 )
+
+export const selectSelectedElement = createSelector(
+  selectCanvas,
+  state => state.selectedElement
+)
