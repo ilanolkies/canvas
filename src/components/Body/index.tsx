@@ -2,7 +2,7 @@ import React from 'react'
 import './style.sass'
 import Sidebar from '../Sidebar'
 import Canvas from '../Canvas'
-import CanvasElementSettings from '../CanvasElementSettings'
+import Settings from '../Settings'
 
 export default () => (
   <div className="Body">
@@ -15,7 +15,7 @@ export default () => (
     </div>
     <div className="divisor"></div>
     <div className="settings">
-      <CanvasElementSettings />
+      <Settings />
     </div>
   </div>
 )

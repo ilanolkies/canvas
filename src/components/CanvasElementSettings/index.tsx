@@ -1,22 +1,27 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import './style.sass'
-import { selectSelectedElement } from '../Canvas/selectors'
+import toPairs from 'lodash/toPairs'
+import { selectSelectedElementProps } from '../Canvas/selectors'
 import { RootState } from '../../store'
+import { ElementProps } from '../elements'
 
 interface ElementSettingsProps {
-  selectedElement: number
+  [key: string]: any
+  selectedElementProps: ElementProps
 }
 
-const ElementSettings = ({ selectedElement }: ElementSettingsProps) => (
-  <div className="ElementSettings">
-    <p>Settings</p>
-    {selectedElement}
-  </div>
-)
+const ElementSettings = ({ selectedElementProps }: ElementSettingsProps) => {
+  return (
+    <>
+      {toPairs(selectedElementProps).map(([key, value]) => {
+        return <div key={key}>{key}: {value}</div>
+      })}
+    </>
+  )
+}
 
 const mapStateToProps = (state: RootState) => ({
-  selectedElement: selectSelectedElement(state)
+  selectedElementProps: selectSelectedElementProps(state)
 })
 
 export default connect(mapStateToProps)(ElementSettings)

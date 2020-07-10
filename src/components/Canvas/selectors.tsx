@@ -24,3 +24,14 @@ export const selectSelectedElement = createSelector(
   selectCanvas,
   state => state.selectedElement
 )
+
+export const isSelectedElement = createSelector(
+  selectSelectedElement,
+  selectedElement => selectedElement > -1
+)
+
+export const selectSelectedElementProps = createSelector(
+  selectElements,
+  selectSelectedElement,
+  (elements, selectedElement) => elements[selectedElement].props
+)
