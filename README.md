@@ -1,3 +1,16 @@
+# Canvas
+
+A canvas tool.
+
+## Features
+
+- Click on the sidebar box to add it to the canvas
+- Add more than one box
+- Drag&drop box over de canvas
+- View box props
+
+---
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
