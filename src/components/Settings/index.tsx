@@ -4,6 +4,7 @@ import './style.sass'
 import { isSelectedElement } from '../Canvas/selectors'
 import { RootState } from '../../store'
 import CanvasElementSettings from '../CanvasElementSettings'
+import CanvasElementZIndex from '../CanvasElementZIndex'
 
 interface ElementSettingsProps {
   [key: string]: any
@@ -14,9 +15,16 @@ const ElementSettings = ({ isSelectedElement }: ElementSettingsProps) => {
   console.log(isSelectedElement)
   return (
     <div className="ElementSettings">
-      <p>Settings</p>
+      <h4>Settings</h4>
       {
-        isSelectedElement && <CanvasElementSettings />
+        isSelectedElement && (
+          <>
+            <p>Properties</p>
+            <CanvasElementSettings />
+            <p>Z-index</p>
+            <CanvasElementZIndex />
+          </>
+        )
       }
     </div>
   )

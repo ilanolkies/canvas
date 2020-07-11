@@ -1,5 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { ElementTypes, ElementProps } from '../elements'
+import inRange from 'lodash/inRange'
+import pullAt from 'lodash/pullAt'
 
 export interface AbsolutePosition {
   top: number,
@@ -26,11 +28,18 @@ export interface AddElementPayload {
   props: ElementProps
 }
 
+export interface ChangeElementOrderPayload {
+  id: number,
+  reorder: number
+}
+
 export interface SelectElementPayload {
   id: number
 }
 
 export type MoveElementPayload = AbsolutePosition & { id: number }
+
+const elementExist = (state: CanvasState) => (id: number) => inRange(id, state.elements.length)
 
 const canvasSlice = createSlice({
   name: 'canvas',
@@ -44,12 +53,43 @@ const canvasSlice = createSlice({
       elements[id].left += left
     },
     selectElement(state: CanvasState, { payload: { id } }: PayloadAction<SelectElementPayload>) {
-      if (id >= -1 && id < state.elements.length) {
+      if (elementExist(state)(id)) {
         if (state.selectedElement !== id) {
           state.selectedElement = id
         } else {
           state.selectedElement = -1
         }
+      }
+    },
+    changeElementOrder(state: CanvasState, { payload: { id, reorder } }: PayloadAction<ChangeElementOrderPayload>) {
+      const _elementExist = elementExist(state)
+      const partialNewId = id + reorder
+      const newId = partialNewId < 0 ? 0 : (partialNewId >= state.elements.length ? state.elements.length-1 : partialNewId)
+      if (_elementExist(id) && _elementExist(newId)  && id !== newId) {
+        if (newId === 0) {
+          const temp = state.elements[id]
+          pullAt(state.elements, [id])
+          state.elements.unshift(temp)
+        } else if (newId === state.elements.length - 1) {
+          const temp = state.elements[id]
+          pullAt(state.elements, [id])
+          state.elements.push(temp)
+        } else if (id > newId) {
+          state.elements = [
+            ...state.elements.slice(0, newId),
+            state.elements[id],
+            ...state.elements.slice(newId, id),
+            ...state.elements.slice(id + 1)
+          ]
+        } else {
+          state.elements = [
+            ...state.elements.slice(0, id),
+            ...state.elements.slice(id + 1, newId + 1),
+            state.elements[id],
+            ...state.elements.slice(newId + 1)
+          ]
+        }
+        if (state.selectedElement === id) state.selectedElement = newId
       }
     },
     changeSelectedElementProp(state: CanvasState, { payload }: PayloadAction<Partial<ElementProps>>) {
@@ -58,6 +98,6 @@ const canvasSlice = createSlice({
   }
 })
 
-export const { addElement, moveElement, selectElement, changeSelectedElementProp } = canvasSlice.actions
+export const { addElement, moveElement, selectElement, changeSelectedElementProp, changeElementOrder } = canvasSlice.actions
 
 export default canvasSlice.reducer

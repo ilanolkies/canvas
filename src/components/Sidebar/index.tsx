@@ -26,13 +26,15 @@ const Sidebar: React.FC<SidebarProps> = ({ onClick }) => (
   </div>
 )
 
+const randomColor = () => Math.floor(Math.random()*16777215).toString(16);
+
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   onClick: () => dispatch(addElement({
     type: ElementTypes.Box,
     props: {
       width: 140,
       height: 50,
-      backgroundColor: '#ac04f2'
+      backgroundColor: `#${randomColor()}`
     }
   }))
 })
