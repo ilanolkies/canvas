@@ -51,10 +51,13 @@ const canvasSlice = createSlice({
           state.selectedElement = -1
         }
       }
+    },
+    changeSelectedElementProp(state: CanvasState, { payload }: PayloadAction<Partial<ElementProps>>) {
+      Object.assign(state.elements[state.selectedElement].props, payload)
     }
   }
 })
 
-export const { addElement, moveElement, selectElement } = canvasSlice.actions
+export const { addElement, moveElement, selectElement, changeSelectedElementProp } = canvasSlice.actions
 
 export default canvasSlice.reducer
