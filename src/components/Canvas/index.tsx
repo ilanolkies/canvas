@@ -19,7 +19,7 @@ type DraggedElementPosition = {
 }
 
 type DraggedElement = {
-  id: number
+  at: number
 } & DraggedElementPosition
 
 const Canvas: React.FC<CanvasProps> = ({
@@ -33,9 +33,9 @@ const Canvas: React.FC<CanvasProps> = ({
     clientY: -1
   } as DraggedElementPosition)
 
-  const drop = ({ id, clientX, clientY }: DraggedElement) => {
+  const drop = ({ at, clientX, clientY }: DraggedElement) => {
     const payload = {
-      id,
+      at,
       left: clientX - draggedElement.clientX,
       top: clientY - draggedElement.clientY
     }
@@ -45,17 +45,17 @@ const Canvas: React.FC<CanvasProps> = ({
   return (
     <div className="Canvas">
       {
-        elementPositions.map(({ top, left }, id) => {
+        elementPositions.map(({ top, left, id }, at) => {
           return (
             <div key={id}
               style={{ top, left }}
               className='canvas-element'
               onDragStart={({ clientX, clientY }) => drag({ clientX, clientY  })}
-              onDragEnd={({ clientX, clientY }) => drop({ id, clientX, clientY  })}
-              onClick={() => selectElement({ id })}
+              onDragEnd={({ clientX, clientY }) => drop({ at, clientX, clientY  })}
+              onClick={() => selectElement({ at })}
               draggable
             >
-              <CanvasElement id={id} />
+              <CanvasElement id={at} />
             </div>
           )
         })

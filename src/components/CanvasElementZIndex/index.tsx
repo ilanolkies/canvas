@@ -26,7 +26,7 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  changeElementOrder: (id: number) => (reorder: number) => dispatch(changeElementOrder({ id, reorder }))
+  changeElementOrder: (at: number) => (reorder: number) => dispatch(changeElementOrder({ at, reorder }))
 })
 
 const mergeProps = (stateProps: ReturnType<typeof mapStateToProps>, dispatchProps: ReturnType<typeof mapDispatchToProps>, ownProps: any) => {

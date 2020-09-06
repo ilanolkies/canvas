@@ -9,7 +9,7 @@ export const selectElements = createSelector(
 
 export const selectElementPositions = createSelector(
   selectElements,
-  elements => elements.map(element => ({ top: element.top, left: element.left }))
+  elements => elements.map(element => ({ top: element.top, left: element.left, id: element.id }))
 )
 
 export const selectElementPropsById = createSelector(
